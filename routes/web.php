@@ -21,6 +21,8 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::get('/takeaquiz', 'QuizController@takeaquiz')->name('takeaquiz');
+
 
 
 Route::prefix('myadmin')->group(function () {
@@ -34,5 +36,6 @@ Route::prefix('myadmin')->group(function () {
 
   Route::resource('categories', 'Admin\CategoryController');
   Route::resource('questions', 'Admin\QuestionController');
+  Route::get('users', 'Admin\CustomerController@index')->name('users.index');
 
 });
