@@ -22,6 +22,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/takeaquiz', 'QuizController@takeaquiz')->name('takeaquiz');
+Route::post('/takeaquiz', 'QuizController@posttakeaquiz');
 
 
 

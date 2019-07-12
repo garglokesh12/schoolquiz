@@ -50,6 +50,24 @@
             .m-b-md {
                 margin-bottom: 30px;
             }
+            .customlist li{
+                display: inline;
+                float:left;
+            }
+            .customlist{
+                border: 1px solid gray;
+                border-radius: 8px;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+            .customlist h6{
+                background: #1111;
+                padding: 5%;
+                border: 1px gray;
+            }
+            .customlist p{
+                padding-left: 3%;
+            }
         </style>
 @section('content')
 <div class="container">
@@ -59,14 +77,24 @@
                 <div class="card-header">Dashboard</div>
 
                 <div class="card-body">
-                    @if (session('status'))
-                    <div class="alert alert-success" role="alert">
-                        {{ session('status') }}
-                    </div>
-                    @endif
-
-                    You are logged in!
-                </div>
+                        <div class="container">
+                        
+                        <p><strong>Total quiz given:</strong> {{ $quizs->count()}}</p>
+                        
+                        <div class="row">
+                            <?php $i =1; ?>
+                            @foreach($quizs as $quiz)
+                                <div class="col-md-3 customlist"><h6>Quiz:  {{$i}} </h6>
+                                @foreach($categories as $category)
+                                    <p>{{$category->category_name}} = {{ $quiz->userquizquestions->where('category_name', $category->category_name)->sum('score') }} </p>
+                                @endforeach
+                                </div>
+                                <?php $i++; ?>
+                            @endforeach
+                            
+                        </div>
+                        </div>
+                </div>  
             </div>
         </div>
     </div>

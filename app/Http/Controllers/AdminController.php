@@ -2,6 +2,9 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Admin;
+use App\User;
+use App\Quizresult;
+
 class AdminController extends Controller
 {
     public function __construct()
@@ -15,7 +18,11 @@ class AdminController extends Controller
      */
     public function index()
     {
-        return view('admin.dashboard');
+        $totaluser = User::all()->count();
+        $quizs = Quizresult::with('user')->get();
+        $toptenusers = Quizresult::with('user')->orderBy('score','desc')->limit(10)->get();
+        
+        return view('admin.dashboard', compact('totaluser', 'quizs', 'toptenusers'));
     }
     /**
      * Show the form for creating a new resource.

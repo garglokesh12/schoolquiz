@@ -14,6 +14,7 @@
                     <tr>
                       <td>ID</td>
                       <td>Question</td>
+                      <td>Category</td>
                       <td>Answer</td>
                       <td colspan="2" align="center">Action</td>
                     </tr>
@@ -23,6 +24,7 @@
                     <tr>
                         <td>{{$question->id}}</td>
                         <td>{{$question->question}}</td>
+                        <td></td>
                         <td>{{$question->answer}}</td>
                         <td><a href="{{ route('questions.edit',$question->id)}}" class="btn btn-primary">Edit</a></td>
                         <td>

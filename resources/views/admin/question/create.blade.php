@@ -43,7 +43,7 @@
                         <input type="text" class="form-control" name="answer"/>
                     </div>
                     
-                    <button type="submit" class="btn btn-primary">Create Category</button>
+                    <button type="submit" class="btn btn-primary">Create Question</button>
                 </form>
             </div>
           </div>

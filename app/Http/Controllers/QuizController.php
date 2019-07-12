@@ -3,6 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Admin\Questions;
+use App\Admin\Category;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
+use App\Quizresult;
+use App\Userquizquestion;
 
 class QuizController extends Controller
 {
@@ -21,9 +27,105 @@ class QuizController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function takeaquiz()
+    public function takeaquiz(Request $request)
     {
-    	return view('takequiz');
+        $categories = DB::table('categories')->where('category_name','=','Addition')->orWhere('category_name','=','Subtraction')->orWhere('category_name','=','Multiplication')->orWhere('category_name','=','Division')->inRandomOrder()->get()->toarray();
+        $question = collect();
+        $session = Session::get('questions');
+        if(empty($session)){
+            if(!empty($categories)){
+                foreach ($categories as $category) {
+                    $category->category_name = Questions::where('category_id', $category->id)->inRandomOrder()->limit(3)->get();
+                    $question = $question->concat($category->category_name);
+                }
+                $questions=$question->all();
+                Session::put('questions', $questions);
+            }
+        }else{
+            $questions = Session::get('questions');
+        }
+    	return view('takequiz', compact('questions'));
     }
 
+
+    /**
+     * Submit the quiz
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function posttakeaquiz(Request $request)
+    {
+        $custrequests = $this->restructurerequest($request->except(['userid', '_token']));
+        $quizresult = Quizresult::create([
+                'user_id'=>$request->userid,
+                'score'=>null,
+                'time'=>null,
+            ]);
+
+        $quizid = $quizresult->id;
+        foreach($custrequests as $custreq){
+            $userquiz = $this-> userquizquestion($custreq, $quizid, $request->userid);
+        }
+        $totalscore = DB::table('userquizquestions')->where('user_id', $request->userid)->where('quizresult_id', $quizid)->sum('score');
+        $quiz = Quizresult::find($quizid);
+        $quiz->update([
+            'score' => $totalscore,
+            ]);
+        Session::forget('questions');
+        return redirect()->route('home');
+
+    }
+
+
+    /**
+     * verify the answer is true or not
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    protected function matchanswer($questionid, $answer)
+    {
+        $question = Questions::find($questionid);
+        if($question->answer == $answer){
+            return true;
+        }
+        return false;
+    }
+
+    protected function userquizquestion($request, $quizid, $userid){
+        $answer = $this->matchanswer($request['question_id'], $request['answer']);
+        if(!$answer){
+            $answer = 0;
+        }else{
+            $answer = 1;
+        }
+        $userquizques = Userquizquestion::create([
+            'quizresult_id' => $quizid,
+            'user_id' => $userid,
+            'ques_id' => $request['question_id'],
+            'score' => $answer,
+        ]);
+
+    }
+
+
+    /**
+     * restructure the request
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    protected function restructurerequest($request){
+        // dd($request);
+        $customReq = array();
+        
+        foreach($request['question'] as $question){
+            $customReq[]['question_id'] = $question; 
+        }
+        $i = 0;
+        foreach($request['answer'] as $answer){
+                $customReq[$i]['answer'] = $answer;
+                $i++;
+        }
+        return $customReq;
+        // dd($customReq);
+    }
 }

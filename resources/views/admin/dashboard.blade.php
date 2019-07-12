@@ -8,16 +8,35 @@
                 <div class="card-header"><strong>Admin's</strong> Dashboard</div>
 
                 <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
+                    
+                    <div class="container">
+                        <div class="row">
+                            <strong> Total No of Users in System : </strong> {{ $totaluser }} 
                         </div>
-                    @endif
+                    </div>
 
-                    You are logged in!
+                    <div class="container">
+                        <div class="row">
+                            <strong> Total No of Quiz given by Users :</strong> {{ $quizs->count() }} 
+                        </div>
+                    </div>
+                    
+                    <div class="container">
+                       
+                        <strong> Top 10 users score list:</strong>
+                            
+                        <div class="row">
+                            <ol type="decimal">
+                            @foreach($toptenusers as $toptenuser)
+
+                                <li> {{$toptenuser->user->name}}  :  {{ $toptenuser->score}}</li>
+
+                            @endforeach
+                            </ol>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
     </div>
 </div>
 @endsection
