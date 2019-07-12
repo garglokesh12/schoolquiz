@@ -15,9 +15,10 @@ class CreateUserQuizQusetionTable extends Migration
     {
         Schema::create('userquizquestions', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('quiz_id');
+            $table->integer('quizresult_id');
             $table->integer('ques_id');
             $table->integer('score');
+            $table->string('answer');
             $table->timestamps();
         });
     }

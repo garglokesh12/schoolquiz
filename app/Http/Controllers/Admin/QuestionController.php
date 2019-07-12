@@ -22,7 +22,7 @@ class QuestionController extends Controller
     public function index()
     {
         //
-        $questions = Questions::latest()->paginate(20);
+        $questions = Questions::with('category')->latest()->paginate(20);
         return view('admin.question.index', compact('questions'));
     }
 

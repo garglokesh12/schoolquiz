@@ -16,21 +16,32 @@
 					<form method="POST" action="">
 					@csrf
 					<input type="hidden" name="userid" value="{{ Auth::user()->id }}">
-					<ol type="decimal">
-
+					
+					<?php $i=1; ?>
 						@foreach($questions as $question)
-						<li><div class="form-group">
-							<p>{{$question->question}}</p>
-							<input type="hidden" name="question[]" value="{{$question->id}}">
-							<input type="text" name="answer[]" value="">
-						</div></li>
+						<div id="question{{$i}}" class="question cont @if($i!=1) hide @endif">
+							<div class="form-group">
+								<p>Ques{{$i}}. {{$question->question}}</p>
+								<input type="hidden" name="question[]" value="{{$question->id}}">
+								<input type="text" name="answer[]" value="">
+							</div>
+							@if($i >=1 && $i < 12)
+							
+							<button type="button" data-id={{$i}} id="question{{$i}}" class="btn btn-primary next">Next</button>
+							@endif
+						</div>
+					
+						<?php $i++; ?>
 						@endforeach
-					</ol>
-						<button type="submit" class="btn btn-primary">Submit Test</button>
+					
+						
+						<button id="submitbtn" type="submit" class="btn btn-primary hide">Submit Test</button>
+						
 					</form>                  
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 @endsection

@@ -12,12 +12,36 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
 
+    <script type="text/javascript" >
+        jQuery('.cont').addClass('hide');
+        jQuery(document).ready(function(){
+            var count=jQuery('.questions').length;
+        });
+        jQuery('#question'+1).removeClass('hide');       
+        jQuery(document).on('click','.next',function(){
+            
+            last=parseInt(jQuery(this).attr('data-id'));     
+            nex=last+1;
+            jQuery('#question'+last).addClass('hide');
+            jQuery('#question'+nex).removeClass('hide');
+            if(nex == 12){
+                jQuery('#submitbtn').removeClass('hide');
+            }
+        });
+
+        
+    </script>
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <style type="text/css">
+        .hide{
+            display: none;
+        }
+    </style>
 </head>
 <body>
     <div id="app">

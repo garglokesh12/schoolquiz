@@ -24,7 +24,7 @@
                     <tr>
                         <td>{{$question->id}}</td>
                         <td>{{$question->question}}</td>
-                        <td></td>
+                        <td>{{$question->category->category_name}}</td>
                         <td>{{$question->answer}}</td>
                         <td><a href="{{ route('questions.edit',$question->id)}}" class="btn btn-primary">Edit</a></td>
                         <td>

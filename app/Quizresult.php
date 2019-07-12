@@ -12,7 +12,7 @@ class Quizresult extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'score', 'time',
+        'user_id', 'score', 'time', 'answer'
     ];
 
     /**

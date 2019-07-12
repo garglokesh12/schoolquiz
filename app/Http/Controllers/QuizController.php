@@ -29,7 +29,7 @@ class QuizController extends Controller
      */
     public function takeaquiz(Request $request)
     {
-        $categories = DB::table('categories')->where('category_name','=','Addition')->orWhere('category_name','=','Subtraction')->orWhere('category_name','=','Multiplication')->orWhere('category_name','=','Division')->inRandomOrder()->get()->toarray();
+        $categories = category::all();
         $question = collect();
         $session = Session::get('questions');
         if(empty($session)){
@@ -38,6 +38,7 @@ class QuizController extends Controller
                     $category->category_name = Questions::where('category_id', $category->id)->inRandomOrder()->limit(3)->get();
                     $question = $question->concat($category->category_name);
                 }
+                $question = $question->shuffle();
                 $questions=$question->all();
                 Session::put('questions', $questions);
             }
@@ -103,6 +104,7 @@ class QuizController extends Controller
             'user_id' => $userid,
             'ques_id' => $request['question_id'],
             'score' => $answer,
+            'answer' => $request['answer'],
         ]);
 
     }

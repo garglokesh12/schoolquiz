@@ -13,12 +13,14 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
 
+    
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    
 </head>
 <body>
     <div id="app">
@@ -46,6 +48,7 @@
                                 </li>
                             @endif-->
                         @else
+                        @auth('admin')
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 Categories <span class="caret"></span>
@@ -93,6 +96,7 @@
                             </form>
                         </div>
                     </li>     
+                    @endauth
                     @endguest                  
                 </ul>
 
