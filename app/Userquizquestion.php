@@ -12,7 +12,7 @@ class Userquizquestion extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'quizresult_id', 'score','ques_id',
+        'user_id', 'quizresult_id', 'score','ques_id','answer',
     ];
 
     /**
