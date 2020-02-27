@@ -92,6 +92,11 @@ class QuizController extends Controller
         return false;
     }
 
+    /**
+     * 
+     * Save user quiz question 
+     *
+     */
     protected function userquizquestion($request, $quizid, $userid){
         $answer = $this->matchanswer($request['question_id'], $request['answer']);
         if(!$answer){
